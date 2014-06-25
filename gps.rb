@@ -28,8 +28,8 @@ def parse_NMEA(raw)
 	if raw.nil?
 		return data
 	end
-  # raw.gsub!(/[\n\r]/, "")
 
+  line = raw.encode('utf-8', invalid: :replace).split(",");
 	line = raw.split(",");
 	if line.size < 1
 		return data
@@ -178,9 +178,6 @@ def parse_NMEA(raw)
 end
 
 while(@sentence = @sp.gets) do
-  # NMEA.scan(@sentence, @handler)
-  # puts parse_NMEA(@sentence)
   sentance = parse_NMEA(@sentence)
-  # puts "lat #{sentance[:latitude]} long #{sentance[:longitude]}"
   puts sentance
 end
