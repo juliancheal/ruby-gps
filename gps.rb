@@ -1,7 +1,7 @@
 require './lib/gps'
 require './lib/nmea'
 
-gps = GPS::Serial.new("/dev/tty.SLAB_USBtoUART", 4800, 8, 1, SerialPort::NONE)
+gps = GPS::Serials.new("/dev/tty.SLAB_USBtoUART", 4800)
 
 while true
   data =gps.parse_nmea

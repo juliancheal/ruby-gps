@@ -1,14 +1,14 @@
-require 'serialport'
+require 'rubyserial'
 $:.unshift File.join(File.dirname(__FILE__))
 module GPS
-  class Serial
+  class Serials
     
-    def initialize(device, baud=4800, bits=8, stop=1, parity=SerialPort::NONE)
-  		@sp = SerialPort.new(device, baud, bits, stop, parity)
+    def initialize(device, baud=4800)
+  		@sp = Serial.new(device, baud)
   	end
   
     def parse_nmea
-      while(@sentence = @sp.gets) do
+      while(@sentence = @sp.read(1024)) do
         nmea = Nmea.new
         sentance = nmea.parse_sentance(@sentence)
         return sentance
