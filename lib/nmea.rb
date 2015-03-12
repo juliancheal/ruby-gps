@@ -1,9 +1,9 @@
 module GPS
   class Nmea
-  
+
     def parse_sentance(raw)
       data, type, line = validate_raw(raw)
-    
+
     	case type
     		when "GGA"
     			data[:last_nmea]    = type
@@ -37,7 +37,7 @@ module GPS
         #   data[:date]     = line.shift
         #   data[:variation]  = line.shift
         #   data[:var_direction] = line.shift
-        #   
+        #
         # when "GLL"
         #   data[:last_nmea]  = type
         #   data[:latitude]   = latLngToDecimal(line.shift)
@@ -45,7 +45,7 @@ module GPS
         #   data[:longitude]  = latLngToDecimal(line.shift)
         #   data[:long_ref]   = line.shift
         #       data[:time]       = line.shift
-        #   
+        #
         # when "RMA"
         #   data[:last_nmea] = type
         #   line.shift # data status
@@ -59,56 +59,56 @@ module GPS
         #   data[:course]     = line.shift
         #   data[:variation]  = line.shift
         #   data[:var_direction]  = line.shift
-        #       
+        #
         # when "GSA"
         #   data[:last_nmea] = type
         #   data[:mode]           = line.shift
         #   data[:mode_dimension] = line.shift
-        #       
+        #
         #       # Satellite data
         #       data[:satellites] ||= []
         #       12.times do |i|
         #         id = line.shift
-        #         
+        #
         #         # No satallite ID, clear data for this index
         #         if id.empty?
         #           data[:satellites][i] = {}
-        #         
+        #
         #         # Add satallite ID
         #         else
         #       data[:satellites][i] ||= {}
         #       data[:satellites][i][:id] = id
         #         end
         #       end
-        #       
+        #
         #       data[:pdop]     = line.shift
         #       data[:hdop]     = line.shift
         #       data[:vdop]     = line.shift
-        #       
+        #
         # when "GSV"
         #   data[:last_nmea]  = type
         #   data[:msg_count]  = line.shift
         #   data[:msg_num]    = line.shift
         #   data[:num_sat]    = line.shift.to_i
-        #   
+        #
         #   # Satellite data
         #         data[:satellites] ||= []
         #   4.times do |i|
         #           data[:satellites][i] ||= {}
-        #         
+        #
         #     data[:satellites][i][:elevation]  = line.shift
         #     data[:satellites][i][:azimuth]    = line.shift
         #     data[:satellites][i][:snr]      = line.shift
         #   end
-        #       
+        #
         #     when "HDT"
         #   data[:last_nmea] = type
         #   data[:heading]  = line.shift
-        #   
+        #
         # when "ZDA"
         #   data[:last_nmea] = type
         #   data[:time] = line.shift
-        #   
+        #
         #   day   = line.shift
         #   month = line.shift
         #   year  = line.shift
@@ -116,7 +116,7 @@ module GPS
         #     year = [2, 2]
         #   end
         #   data[:date] = "#{day}#{month}#{year}"
-        #   
+        #
         #   data[:local_hour_offset]    = line.shift
         #   data[:local_minute_offset]  = line.shift
     	end
@@ -127,20 +127,20 @@ module GPS
     			data.delete(key)
     		end
     	end
-  	
+
     	data
     end
-  
+
     def parse_raw(raw)
       raw
     end
-  
+
     private
-  
+
     def latLngToDecimal(coord, dir, lat)
     	coord = coord.to_s
     	decimal = nil
-    	if (lat && dir.to_s.upcase == "S") || dir.to_s.upcase == "W" 
+    	if (lat && dir.to_s.upcase == "S") || dir.to_s.upcase == "W"
     	  negative = true
     	end
 
@@ -157,7 +157,7 @@ module GPS
     	end
     	decimal
     end
-  
+
     def validate_raw(raw)
       data = { :last_nmea => nil }
     	if raw.nil?
@@ -165,11 +165,11 @@ module GPS
     	end
 
       line = raw.encode('utf-8', invalid: :replace).split(",")
-    
+
       unless raw.valid_encoding?
         return data
       end
-    
+
     	line = raw.split(",")
     	if line.size < 1
     		return data
